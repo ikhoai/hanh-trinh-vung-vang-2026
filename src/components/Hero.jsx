@@ -1,4 +1,4 @@
-import ImageSlot from './ImageSlot.jsx'
+import heroImg from '../assets/test.jpg'
 
 export default function Hero() {
   return (
@@ -37,9 +37,10 @@ export default function Hero() {
             </div>
           </div>
           <div className="hero-img">
-            <ImageSlot
-              placeholder="Buổi sáng trên đồi cỏ — các bạn nhỏ đi chân trần, sương còn đọng"
-              style={{ width: '100%', height: '100%' }}
+            <img
+              src={heroImg}
+              alt="Buổi sáng trên đồi cỏ — Yên Farm"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
             <div className="hero-caption">mùa hè ở Yên Farm</div>
           </div>

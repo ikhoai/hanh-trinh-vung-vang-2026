@@ -1,4 +1,4 @@
-import ImageSlot from './ImageSlot.jsx'
+import morning from '../assets/morning.jpg'
 
 const schedule = [
   { time: '05:30', what: 'Thức dậy cùng tiếng gà', note: 'trong yên lặng, không vội' },
@@ -27,9 +27,10 @@ export default function DailyRhythm() {
         </div>
         <div className="rhythm-wrap">
           <div className="rhythm-img">
-            <ImageSlot
-              placeholder="Trẻ tập yoga sáng trên sân cỏ"
-              style={{ width: '100%', height: '100%' }}
+            <img
+              src={morning}
+              alt="Buổi sáng tại Yên Farm"
+              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
             />
           </div>
           <ul className="rhythm-list">
