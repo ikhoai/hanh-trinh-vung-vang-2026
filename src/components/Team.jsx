@@ -1,23 +1,28 @@
-import ImageSlot from './ImageSlot.jsx'
+import coNgocAnh from '../assets/coNgocAnh.jpg'
+import coTho from '../assets/coTho.jpg'
+import coDieu from '../assets/coDieu.jpg'
 
 const members = [
   {
     id: 'ngocanh',
-    placeholder: 'Chân dung Cô Ngọc Anh',
+    src: coNgocAnh,
+    alt: 'Cô Ngọc Anh',
     role: 'Quản lý Giáo dục & Chuyên môn',
     name: 'Cô Ngọc Anh',
     bio: 'Phụ trách định hướng giáo dục và nội dung chương trình — người giữ tinh thần "nền tảng sống" xuyên suốt hành trình.',
   },
   {
     id: 'tho',
-    placeholder: 'Chân dung Cô Thơ',
+    src: coTho,
+    alt: 'Cô Thơ',
     role: 'Quản lý Vận hành & Bếp trưởng',
     name: 'Cô Thơ',
     bio: 'Phụ trách hậu cần, lịch sinh hoạt, an toàn hằng ngày — và thực đơn ăn uống thuận tự nhiên cho các con.',
   },
   {
     id: 'dieu',
-    placeholder: 'Chân dung Cô Diệu',
+    src: coDieu,
+    alt: 'Cô Diệu',
     role: 'Phụ trách Nề nếp sống',
     name: 'Cô Diệu',
     bio: 'Đồng hành trực tiếp cùng các con trong thói quen sinh hoạt, lễ phép, và sự kỷ luật trong đời sống thường ngày.',
@@ -39,9 +44,10 @@ export default function Team() {
           {members.map((member) => (
             <div className="person" key={member.id}>
               <div className="person-img">
-                <ImageSlot
-                  placeholder={member.placeholder}
-                  style={{ width: '100%', height: '100%' }}
+                <img
+                  src={member.src}
+                  alt={member.alt}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
                 />
               </div>
               <div>
