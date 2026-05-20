@@ -1,0 +1,1088 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Hành Trình Vững Vàng 2026 — Yên Farm</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Be+Vietnam+Pro:wght@300;400;500;600&family=Caveat:wght@400;600&family=JetBrains+Mono:wght@400&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+<script src="image-slot.js"></script>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<style>
+  :root {
+    --cream: #F4EDE0;
+    --cream-2: #EDE3D0;
+    --paper: #E6D9BD;
+    --ink: #2A241D;
+    --ink-soft: #4A4036;
+    --ink-mute: #756959;
+    --forest: #4A5D3A;
+    --forest-deep: #364528;
+    --clay: #9C6B3F;
+    --sun: #C99A3E;
+    --line: #C9BCA0;
+    --serif: 'Lora', 'Times New Roman', serif;
+    --sans: 'Be Vietnam Pro', system-ui, sans-serif;
+    --hand: 'Caveat', cursive;
+    --mono: 'JetBrains Mono', monospace;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--cream);
+    font-weight: 400;
+    line-height: 1.6;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    /* subtle paper grain */
+    background-image:
+      radial-gradient(rgba(120,90,40,0.045) 1px, transparent 1px),
+      radial-gradient(rgba(120,90,40,0.03) 1px, transparent 1px);
+    background-size: 3px 3px, 7px 7px;
+    background-position: 0 0, 1px 2px;
+  }
+
+  /* ---------- Layout primitives ---------- */
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .narrow { max-width: 760px; margin: 0 auto; padding: 0 32px; }
+  section { padding: 96px 0; position: relative; }
+  @media (max-width: 720px) {
+    section { padding: 64px 0; }
+    .wrap, .narrow { padding: 0 22px; }
+  }
+
+  /* ---------- Type ---------- */
+  h1, h2, h3, h4 {
+    font-family: var(--serif);
+    font-weight: 500;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+    margin: 0;
+  }
+  h1 { font-size: clamp(44px, 6.4vw, 88px); font-weight: 500; }
+  h2 { font-size: clamp(30px, 3.6vw, 46px); }
+  h3 { font-size: clamp(22px, 2.2vw, 28px); }
+  p { margin: 0 0 1.1em; }
+  .lead { font-size: 19px; color: var(--ink-soft); line-height: 1.65; }
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--clay);
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::before {
+    content: "";
+    width: 22px; height: 1px;
+    background: var(--clay);
+    display: inline-block;
+  }
+  .hand { font-family: var(--hand); color: var(--forest); font-size: 1.4em; line-height: 1; }
+  em { font-style: italic; color: var(--ink-soft); }
+
+  /* ---------- Header / nav ---------- */
+  header.site {
+    position: sticky; top: 0; z-index: 50;
+    backdrop-filter: blur(8px);
+    background: rgba(244,237,224,0.82);
+    border-bottom: 1px solid rgba(201,188,160,0.5);
+  }
+  .nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 32px;
+    max-width: 1180px; margin: 0 auto;
+  }
+  .brand { display: flex; align-items: center; gap: 12px; font-family: var(--serif); font-size: 18px; font-weight: 500; }
+  .brand .mark {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--forest);
+    display: grid; place-items: center;
+    color: var(--cream); font-family: var(--serif); font-style: italic; font-size: 16px;
+  }
+  .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-soft); }
+  .nav-links a { color: inherit; text-decoration: none; }
+  .nav-links a:hover { color: var(--forest); }
+  @media (max-width: 760px) { .nav-links { display: none; } }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 14px 26px;
+    font-family: var(--sans); font-size: 15px; font-weight: 500;
+    border-radius: 999px; cursor: pointer; text-decoration: none;
+    transition: transform .15s ease, background .2s ease, color .2s ease;
+    border: 1px solid transparent;
+  }
+  .btn-primary { background: var(--forest); color: var(--cream); }
+  .btn-primary:hover { background: var(--forest-deep); }
+  .btn-ghost { background: transparent; color: var(--ink); border-color: var(--ink); }
+  .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+  .btn .arrow { transition: transform .2s ease; }
+  .btn:hover .arrow { transform: translateX(3px); }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 80px 0 60px;
+    position: relative;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: 64px;
+    align-items: end;
+  }
+  @media (max-width: 880px) {
+    .hero-grid { grid-template-columns: 1fr; gap: 36px; }
+  }
+  .hero h1 {
+    font-style: normal;
+    font-weight: 500;
+  }
+  .hero h1 .it { font-style: italic; color: var(--forest); }
+  .hero .sub {
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(18px, 1.8vw, 22px);
+    color: var(--ink-soft);
+    margin-top: 18px;
+    max-width: 540px;
+  }
+  .hero .intro {
+    margin-top: 28px;
+    font-size: 17px;
+    color: var(--ink-soft);
+    max-width: 480px;
+  }
+  .hero-cta { display: flex; gap: 14px; margin-top: 32px; flex-wrap: wrap; }
+  .hero-meta {
+    margin-top: 56px;
+    display: flex; gap: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+    flex-wrap: wrap;
+  }
+  .hero-meta div { display: flex; flex-direction: column; }
+  .hero-meta .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); margin-bottom: 6px; }
+  .hero-meta .v { font-family: var(--serif); font-size: 17px; color: var(--ink); }
+
+  .hero-img {
+    aspect-ratio: 3/4;
+    position: relative;
+  }
+  .hero-img image-slot {
+    width: 100%; height: 100%;
+  }
+  .hero-caption {
+    position: absolute;
+    bottom: -14px; left: -14px;
+    background: var(--cream);
+    padding: 10px 16px;
+    border: 1px solid var(--line);
+    font-family: var(--hand);
+    font-size: 22px;
+    color: var(--forest);
+    transform: rotate(-1.5deg);
+  }
+
+  /* ---------- Section header pattern ---------- */
+  .sec-head { display: flex; flex-direction: column; gap: 18px; margin-bottom: 56px; max-width: 760px; }
+  .sec-head .eyebrow { align-self: flex-start; }
+
+  /* ---------- Opening letter ---------- */
+  .letter {
+    background: var(--cream-2);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .letter-body {
+    font-family: var(--serif);
+    font-size: clamp(20px, 2.1vw, 26px);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+  .letter-body p { margin-bottom: 1em; }
+  .pullquote {
+    margin: 40px 0 8px;
+    padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(22px, 2.4vw, 30px);
+    line-height: 1.35;
+    color: var(--forest-deep);
+    text-align: left;
+  }
+  .signoff {
+    margin-top: 36px;
+    font-family: var(--hand);
+    color: var(--ink-soft);
+    font-size: 24px;
+  }
+
+  /* ---------- Philosophy ---------- */
+  .philosophy-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .philosophy-grid { grid-template-columns: 1fr; gap: 36px; } }
+  .philosophy-list { list-style: none; padding: 0; margin: 32px 0 0; }
+  .philosophy-list li {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: 32px 1fr;
+    gap: 16px; align-items: baseline;
+  }
+  .philosophy-list li:last-child { border-bottom: none; }
+  .philosophy-list .num { font-family: var(--mono); font-size: 12px; color: var(--clay); padding-top: 4px; }
+  .philosophy-list .txt { font-family: var(--serif); font-size: 19px; color: var(--ink); line-height: 1.4; }
+
+  /* ---------- Pillars ---------- */
+  .pillars { background: var(--ink); color: var(--cream); }
+  .pillars .eyebrow { color: var(--sun); }
+  .pillars .eyebrow::before { background: var(--sun); }
+  .pillars h2, .pillars h3 { color: var(--cream); }
+  .pillars .lead { color: rgba(244,237,224,0.7); }
+  .pillar-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(244,237,224,0.12);
+    margin-top: 64px;
+    border: 1px solid rgba(244,237,224,0.12);
+  }
+  @media (max-width: 880px) { .pillar-grid { grid-template-columns: 1fr; } }
+  .pillar {
+    background: var(--ink);
+    padding: 40px 32px 44px;
+    display: flex; flex-direction: column; gap: 20px;
+    position: relative;
+  }
+  .pillar .roman {
+    font-family: var(--serif); font-style: italic;
+    font-size: 14px; color: var(--sun); letter-spacing: 0.1em;
+  }
+  .pillar h3 { font-size: 22px; line-height: 1.25; }
+  .pillar h3 .tag { display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.18em; color: var(--sun); text-transform: uppercase; margin-bottom: 10px; font-style: normal; }
+  .pillar ul { list-style: none; padding: 0; margin: 8px 0 0; }
+  .pillar ul li {
+    padding: 10px 0;
+    border-top: 1px solid rgba(244,237,224,0.12);
+    font-size: 15px;
+    color: rgba(244,237,224,0.85);
+    display: flex; gap: 12px;
+  }
+  .pillar ul li::before { content: "—"; color: var(--sun); }
+  .pillar .core {
+    margin-top: auto;
+    padding-top: 24px;
+    font-family: var(--serif); font-style: italic;
+    font-size: 16px; line-height: 1.5;
+    color: rgba(244,237,224,0.85);
+    border-top: 1px solid rgba(244,237,224,0.12);
+  }
+
+  /* ---------- Daily Rhythm ---------- */
+  .rhythm-wrap {
+    display: grid; grid-template-columns: 0.85fr 1.15fr; gap: 64px;
+    align-items: start;
+  }
+  @media (max-width: 880px) { .rhythm-wrap { grid-template-columns: 1fr; gap: 36px; } }
+  .rhythm-img { aspect-ratio: 4/5; }
+  .rhythm-img image-slot { width: 100%; height: 100%; }
+  .rhythm-list {
+    list-style: none; padding: 0; margin: 0;
+    border-top: 1px solid var(--line);
+  }
+  .rhythm-list li {
+    display: grid;
+    grid-template-columns: 110px 1fr auto;
+    gap: 24px; align-items: baseline;
+    padding: 22px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  .rhythm-list .time { font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; color: var(--clay); text-transform: uppercase; }
+  .rhythm-list .what { font-family: var(--serif); font-size: 20px; color: var(--ink); }
+  .rhythm-list .note { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--ink-mute); text-align: right; max-width: 200px; }
+  @media (max-width: 600px) {
+    .rhythm-list li { grid-template-columns: 80px 1fr; }
+    .rhythm-list .note { grid-column: 2; text-align: left; }
+  }
+
+  /* ---------- Notebook ---------- */
+  .notebook { background: var(--paper); }
+  .notebook-wrap {
+    display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 64px;
+    align-items: center;
+  }
+  @media (max-width: 880px) { .notebook-wrap { grid-template-columns: 1fr; } }
+  .notebook-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 36px;
+    box-shadow: 8px 10px 0 -2px rgba(42,36,29,0.06);
+    position: relative;
+  }
+  .notebook-card::before {
+    content: "";
+    position: absolute;
+    left: 28px; top: 0; bottom: 0;
+    width: 1px; background: rgba(156,107,63,0.3);
+  }
+  .notebook-card .title-hand {
+    font-family: var(--hand); font-size: 32px; color: var(--forest-deep);
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 12px; margin-bottom: 18px;
+  }
+  .notebook-card .entries { display: flex; flex-direction: column; gap: 10px; }
+  .notebook-card .entry {
+    font-family: var(--serif); font-size: 15px; color: var(--ink-soft);
+    display: flex; gap: 12px; align-items: baseline;
+  }
+  .notebook-card .entry .dot {
+    display: inline-block; width: 8px; height: 8px; border-radius: 50%;
+    background: var(--forest); flex-shrink: 0;
+  }
+  .notebook-card .stamp {
+    position: absolute; top: 20px; right: 24px;
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em;
+    color: var(--clay); border: 1px solid var(--clay); padding: 4px 8px;
+    transform: rotate(4deg);
+    text-transform: uppercase;
+  }
+
+  /* ---------- Team ---------- */
+  .team-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px;
+    margin-top: 48px;
+  }
+  @media (max-width: 880px) { .team-grid { grid-template-columns: 1fr; } }
+  .person { display: flex; flex-direction: column; gap: 16px; }
+  .person-img { aspect-ratio: 4/5; }
+  .person-img image-slot { width: 100%; height: 100%; }
+  .person .role {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    color: var(--clay); text-transform: uppercase;
+  }
+  .person h3 { font-size: 24px; }
+  .person p { font-size: 15px; color: var(--ink-soft); margin: 4px 0 0; }
+  .team-extras {
+    margin-top: 48px; padding: 24px 0;
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    font-family: var(--serif); font-style: italic;
+    color: var(--ink-soft);
+    text-align: center;
+  }
+
+  /* ---------- Parent partnership ---------- */
+  .partnership { background: var(--forest); color: var(--cream); }
+  .partnership .eyebrow { color: var(--cream); opacity: 0.7; }
+  .partnership .eyebrow::before { background: var(--cream); opacity: 0.7;}
+  .partnership h2 { color: var(--cream); }
+  .partnership .lead { color: rgba(244,237,224,0.78); }
+  .partnership-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+    margin-top: 56px;
+  }
+  @media (max-width: 720px) { .partnership-grid { grid-template-columns: 1fr; } }
+  .invite {
+    border: 1px solid rgba(244,237,224,0.2);
+    padding: 28px;
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .invite .num { font-family: var(--serif); font-style: italic; font-size: 36px; color: var(--sun); line-height: 1; }
+  .invite p { margin: 0; color: rgba(244,237,224,0.85); font-size: 16px; }
+
+  /* ---------- Program details ---------- */
+  .details-grid {
+    display: grid; grid-template-columns: repeat(5, 1fr);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  @media (max-width: 880px) { .details-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .details-grid { grid-template-columns: 1fr; } }
+  .detail {
+    padding: 32px 24px;
+    border-right: 1px solid var(--line);
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .detail:last-child { border-right: none; }
+  @media (max-width: 880px) {
+    .detail:nth-child(2n) { border-right: none; }
+    .detail { border-bottom: 1px solid var(--line); }
+    .detail:nth-last-child(-n+2) { border-bottom: none; }
+  }
+  .detail .k { font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-mute); }
+  .detail .v { font-family: var(--serif); font-size: 20px; color: var(--ink); line-height: 1.3; }
+
+  /* ---------- Registration process ---------- */
+  .process-steps {
+    display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px;
+    margin-top: 48px;
+  }
+  @media (max-width: 880px) { .process-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 520px) { .process-steps { grid-template-columns: 1fr; } }
+  .step { padding-top: 24px; border-top: 2px solid var(--ink); }
+  .step .n { font-family: var(--serif); font-style: italic; font-size: 14px; color: var(--clay); margin-bottom: 8px; }
+  .step h4 { font-size: 18px; margin-bottom: 8px; }
+  .step p { font-size: 14px; color: var(--ink-soft); margin: 0; }
+
+  /* ---------- Form CTA ---------- */
+  .form-cta { background: var(--cream-2); }
+  .form-cta-card {
+    background: var(--cream);
+    border: 1px solid var(--line);
+    padding: 56px;
+    display: grid; grid-template-columns: 1.2fr 0.8fr;
+    gap: 56px;
+    align-items: center;
+    box-shadow: 10px 12px 0 -2px rgba(42,36,29,0.06);
+    position: relative;
+  }
+  @media (max-width: 880px) {
+    .form-cta-card { grid-template-columns: 1fr; padding: 36px; gap: 32px; }
+  }
+  .form-cta-list { list-style: none; padding: 0; margin: 32px 0 36px; display: flex; flex-direction: column; gap: 14px; }
+  .form-cta-list li {
+    display: grid; grid-template-columns: 14px 1fr; gap: 14px; align-items: baseline;
+    font-family: var(--serif); font-size: 17px; color: var(--ink-soft);
+  }
+  .form-cta-list .d {
+    width: 8px; height: 8px; border-radius: 50%; background: var(--forest);
+    display: inline-block; margin-top: 7px;
+  }
+  .form-cta-actions { display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+  .form-cta-actions small { font-family: var(--serif); font-style: italic; color: var(--ink-mute); font-size: 14px; }
+  .form-cta-aside {
+    border-left: 1px dashed var(--line); padding-left: 40px;
+  }
+  @media (max-width: 880px) {
+    .form-cta-aside { border-left: none; border-top: 1px dashed var(--line); padding-left: 0; padding-top: 28px; }
+  }
+  .stamp-large {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--clay); line-height: 1.5;
+    border: 1px solid var(--clay); padding: 10px 14px;
+    display: inline-block; transform: rotate(-2deg);
+  }
+
+  /* ---------- Closing ---------- */
+  .closing { background: var(--ink); color: var(--cream); text-align: center; padding: 140px 0 120px; }
+  .closing .eyebrow { color: var(--sun); margin: 0 auto; }
+  .closing .eyebrow::before { background: var(--sun); }
+  .closing h2 {
+    color: var(--cream);
+    font-style: italic;
+    font-size: clamp(28px, 3.4vw, 44px);
+    margin: 28px auto 40px;
+    max-width: 820px;
+    line-height: 1.35;
+    font-weight: 400;
+  }
+  .closing .btn-primary { background: var(--sun); color: var(--ink); }
+  .closing .btn-primary:hover { background: var(--cream); }
+  .closing-mark {
+    margin-top: 80px;
+    font-family: var(--serif); font-style: italic;
+    color: rgba(244,237,224,0.5);
+    font-size: 14px;
+  }
+
+  /* ---------- Footer ---------- */
+  footer.site {
+    background: var(--ink);
+    color: rgba(244,237,224,0.6);
+    padding: 40px 0;
+    font-size: 14px;
+    border-top: 1px solid rgba(244,237,224,0.1);
+  }
+  footer.site .wrap {
+    display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;
+  }
+  footer.site .brand { color: var(--cream); font-family: var(--serif); font-size: 16px; }
+
+  /* ---------- image-slot placeholder look ---------- */
+  image-slot {
+    --slot-bg: var(--paper);
+    --slot-border: var(--line);
+    --slot-placeholder-color: var(--ink-mute);
+  }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="nav">
+    <div class="brand"><span class="mark">Y</span> Yên Farm · Làng Gạo</div>
+    <nav class="nav-links">
+      <a href="#triet-ly">Triết lý</a>
+      <a href="#tru-cot">Ba trụ cột</a>
+      <a href="#nhip-song">Nhịp sống</a>
+      <a href="#doi-ngu">Đội ngũ</a>
+      <a href="#chi-tiet">Chi tiết</a>
+      <a href="#dang-ky">Đăng ký</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ============ HERO ============ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow">Sinh hoạt hè nội bộ · Mùa hè 2026</div>
+        <h1 style="margin-top:22px;">
+          Hành Trình<br/>
+          <span class="it">Vững Vàng</span> 2026
+        </h1>
+        <p class="sub">Xây dựng lối sống căn bản và rèn luyện nền tảng theo tự nhiên.</p>
+        <p class="intro">
+          Một mùa hè dài, đủ để con tự gấp chăn của mình mỗi sáng, đủ để bàn tay quen với đất, với nước, với bữa cơm cùng bạn — và đủ để ba mẹ thấy con lớn lên theo một cách rất khác.
+        </p>
+        <div class="hero-cta">
+          <a href="#dang-ky" class="btn btn-primary cta-form" target="_blank" rel="noopener">Điền phiếu đăng ký <span class="arrow">→</span></a>
+          <a href="#triet-ly" class="btn btn-ghost">Tìm hiểu hành trình</a>
+        </div>
+        <div class="hero-meta">
+          <div><span class="k">Thời gian</span><span class="v">14/06 – 12/07 · 2026</span></div>
+          <div><span class="k">Địa điểm</span><span class="v">Yên Farm, Ba Vì</span></div>
+          <div><span class="k">Độ tuổi</span><span class="v">Trẻ 06 – 11 tuổi</span></div>
+        </div>
+      </div>
+      <div class="hero-img">
+        <image-slot id="hero" shape="rect" placeholder="Buổi sáng trên đồi cỏ — các bạn nhỏ đi chân trần, sương còn đọng"></image-slot>
+        <div class="hero-caption">mùa hè ở Yên Farm</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ OPENING LETTER ============ -->
+<section class="letter" id="triet-ly">
+  <div class="narrow">
+    <div class="eyebrow" style="margin-bottom:24px;">Thư mở đầu · Gửi ba mẹ</div>
+    <div class="letter-body">
+      <p>Con của chúng ta đang lớn lên giữa một thời đại có quá nhiều cơ hội học tập — quá nhiều lớp, quá nhiều màn hình, quá nhiều thứ phải biết.</p>
+      <p>Nhưng có một điều con thường thiếu, một cách rất âm thầm: <em>sự tiếp xúc thật với đời sống</em>. Tiếng gà gáy lúc sáng sớm. Cảm giác mỏi chân sau một buổi đi bộ dài. Một bữa cơm con tự dọn lấy. Một chiếc chăn con tự gấp gọn. Một đôi tay con biết làm cho chính mình.</p>
+      <div class="pullquote">
+        “Giáo dục, sau cùng, không chỉ là học kiến thức. Giáo dục là xây dựng một nền tảng sống.”
+      </div>
+      <p>Hành Trình Vững Vàng không phải là một kỳ nghỉ. Không phải là một lớp học thành tích. Cũng không phải là nơi để “nhồi” thêm kỹ năng. Đây là một mùa hè để con sống — chậm, thật, và đủ.</p>
+      <div class="signoff">— Ban Điều phối Yên Farm</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PHILOSOPHY ============ -->
+<section id="triet-ly-2">
+  <div class="wrap">
+    <div class="philosophy-grid">
+      <div>
+        <div class="eyebrow">Triết lý chương trình</div>
+        <h2 style="margin-top:18px;">Yên Farm — một xã hội thu nhỏ giữa thiên nhiên.</h2>
+        <p class="lead" style="margin-top:22px;">
+          Trong một tháng, các con không chỉ là “khách”. Các con là một phần của làng — của cộng đồng nhỏ này. Mỗi sáng thức dậy, mỗi bữa ăn, mỗi giờ lao động, mỗi vòng tròn buổi tối đều là một bài học sống.
+        </p>
+        <p style="color:var(--ink-soft);">
+          Chúng tôi tin rằng trẻ em không cần được phục vụ vô điều kiện. Trẻ em cần được tin cậy, được trao việc, và được nhìn thấy giá trị mà chính mình tạo ra.
+        </p>
+      </div>
+      <div>
+        <ul class="philosophy-list">
+          <li><span class="num">01</span><span class="txt">Sống đơn giản — ăn, ngủ, vận động theo nhịp tự nhiên.</span></li>
+          <li><span class="num">02</span><span class="txt">Làm việc bằng tay — chăm sóc đồ dùng, không gian, và bạn bè.</span></li>
+          <li><span class="num">03</span><span class="txt">Tự phục vụ bản thân — và đỡ đần người xung quanh.</span></li>
+          <li><span class="num">04</span><span class="txt">Thực hành nề nếp — không như một quy tắc, mà như một thói quen.</span></li>
+          <li><span class="num">05</span><span class="txt">Trưởng thành qua trải nghiệm thật — không qua lời giảng.</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ THREE PILLARS ============ -->
+<section class="pillars" id="tru-cot">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Ba trụ cột của hành trình</div>
+      <h2 style="color:var(--cream);">Ba điều con sẽ thực sự lớn lên — bằng thân thể, bằng nề nếp, và bằng ý chí.</h2>
+    </div>
+
+    <div class="pillar-grid">
+      <div class="pillar">
+        <div class="roman">i.</div>
+        <h3><span class="tag">Trụ cột thứ nhất</span>Nề nếp sống —<br/>xây gốc rễ nhân cách</h3>
+        <ul>
+          <li>Tự gấp chăn màn, sắp xếp đồ dùng cá nhân mỗi sáng</li>
+          <li>Tự giặt quần áo bằng tay</li>
+          <li>Tự dọn dẹp không gian sống của mình</li>
+          <li>Chuẩn bị bữa ăn, rửa bát, chăm sóc khu sinh hoạt chung</li>
+        </ul>
+        <p class="core">Ở Yên Farm, các con không sống trong sự phục vụ vô điều kiện. Các con học rằng giá trị đến từ kỷ luật với chính mình và sự đóng góp cho người xung quanh.</p>
+      </div>
+
+      <div class="pillar">
+        <div class="roman">ii.</div>
+        <h3><span class="tag">Trụ cột thứ hai</span>Thể lực & nội thể —<br/>rèn cơ thể khỏe mạnh từ tự nhiên</h3>
+        <ul>
+          <li>Võ học, vận động ngoài trời, pickleball</li>
+          <li>Kỹ năng sinh tồn cơ bản và bơi lội</li>
+          <li>Yoga sáng và khởi động cơ thể</li>
+          <li>Ăn uống thuận tự nhiên, tối giản chế biến công nghiệp</li>
+        </ul>
+        <p class="core">Chân trần trên cỏ, mồ hôi dưới nắng, hơi thở trong gió núi — một cơ thể khỏe mạnh không đến từ phòng tập, mà đến từ một đời sống đủ đầy vận động.</p>
+      </div>
+
+      <div class="pillar">
+        <div class="roman">iii.</div>
+        <h3><span class="tag">Trụ cột thứ ba</span>Thái độ sống & ý chí —<br/>học cách vững vàng</h3>
+        <ul>
+          <li>Leo núi</li>
+          <li>Đi bộ đường dài</li>
+          <li>Lao động ngoài trời</li>
+          <li>Giải quyết tình huống thực tế, làm việc nhóm</li>
+        </ul>
+        <p class="core">Trẻ em lớn lên khi được đối diện với khó khăn vừa sức. Các con có thể mệt, lóng ngóng, nản chí, hay thất bại đôi lần — và điều đó là một phần của hành trình.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DAILY RHYTHM ============ -->
+<section id="nhip-song">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Một ngày ở Yên Farm</div>
+      <h2>Nhịp sống đơn giản, lành, và đầy đủ.</h2>
+      <p class="lead">Không có một thời khóa biểu cứng — chỉ có một nhịp sống. Buổi sáng bắt đầu sớm, buổi tối khép lại nhẹ nhàng, ở giữa là một ngày của tay và chân, của bạn bè, của thiên nhiên.</p>
+    </div>
+
+    <div class="rhythm-wrap">
+      <div class="rhythm-img">
+        <image-slot id="rhythm" shape="rect" placeholder="Trẻ tập yoga sáng trên sân cỏ"></image-slot>
+      </div>
+      <ul class="rhythm-list">
+        <li><span class="time">05:30</span><span class="what">Thức dậy cùng tiếng gà</span><span class="note">trong yên lặng, không vội</span></li>
+        <li><span class="time">06:00</span><span class="what">Yoga & khởi động cơ thể</span><span class="note">trên sân cỏ, chân trần</span></li>
+        <li><span class="time">07:00</span><span class="what">Bữa sáng cùng nhau</span><span class="note">các con dọn bàn, chia phần</span></li>
+        <li><span class="time">08:00</span><span class="what">Tự chăm sóc cá nhân & dọn nhà</span><span class="note">gấp chăn, giặt đồ</span></li>
+        <li><span class="time">09:30</span><span class="what">Rèn luyện thể lực ngoài trời</span><span class="note">võ, leo núi, bơi, đi bộ</span></li>
+        <li><span class="time">12:00</span><span class="what">Bữa trưa & nghỉ trưa</span></li>
+        <li><span class="time">14:30</span><span class="what">Lao động cùng nông trại</span><span class="note">trồng cây, làm vườn</span></li>
+        <li><span class="time">16:30</span><span class="what">Trò chơi nhóm & dự án nhỏ</span></li>
+        <li><span class="time">18:00</span><span class="what">Bữa tối — bữa cơm chung</span></li>
+        <li><span class="time">19:30</span><span class="what">Vòng tròn chia sẻ / lửa trại</span><span class="note">mỗi con nói về ngày của mình</span></li>
+        <li><span class="time">21:00</span><span class="what">Ngủ — sớm, sâu, và đủ</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ NOTEBOOK ============ -->
+<section class="notebook">
+  <div class="wrap">
+    <div class="notebook-wrap">
+      <div>
+        <div class="eyebrow">Cơ chế đồng hành</div>
+        <h2 style="margin-top:18px;">Sổ tay Hành Trình Vững Vàng.</h2>
+        <p class="lead" style="margin-top:22px;">
+          Ở Yên Farm, không có cuộc thi cá nhân nào. Không có bảng xếp hạng. Không có “con giỏi nhất”. Mỗi nhóm có một cuốn sổ tay riêng — nơi các con cùng nhau ghi lại những gì nhóm đã nỗ lực, đã đóng góp, đã chăm sóc lẫn nhau.
+        </p>
+        <ul class="philosophy-list" style="margin-top:8px;">
+          <li><span class="num">●</span><span class="txt" style="font-size:17px;">Mỗi nhóm cùng nhau ghi nề nếp, sự nỗ lực và tinh thần hỗ trợ.</span></li>
+          <li><span class="num">●</span><span class="txt" style="font-size:17px;">Điểm nhóm được đổi lấy hạt giống, vật liệu thủ công, hoặc dự án nhỏ.</span></li>
+          <li><span class="num">●</span><span class="txt" style="font-size:17px;">Cuối hành trình, sản phẩm của các con được giới thiệu trong buổi gây quỹ cộng đồng.</span></li>
+        </ul>
+        <p style="margin-top:24px; font-family:var(--serif); font-style:italic; font-size:20px; color:var(--forest-deep);">
+          “Nỗ lực → Tạo ra giá trị → Biết chia sẻ và đóng góp cho xã hội.”
+        </p>
+      </div>
+
+      <div class="notebook-card">
+        <div class="stamp">Nhóm Cỏ May · Tuần 02</div>
+        <div class="title-hand">Sổ tay của nhóm.</div>
+        <div class="entries">
+          <div class="entry"><span class="dot"></span><span>Thứ Hai — Cả nhóm gấp chăn đúng giờ, sạch.</span></div>
+          <div class="entry"><span class="dot" style="background:var(--clay);"></span><span>Thứ Ba — Linh giúp bạn Minh rửa bát sau bữa tối.</span></div>
+          <div class="entry"><span class="dot" style="background:var(--sun);"></span><span>Thứ Tư — Nhóm hoàn thành luống rau xà lách.</span></div>
+          <div class="entry"><span class="dot"></span><span>Thứ Năm — Bo bị đau chân, cả nhóm đợi nhau lên đồi.</span></div>
+          <div class="entry"><span class="dot" style="background:var(--clay);"></span><span>Thứ Sáu — Đã đổi điểm lấy 1 gói hạt giống cải.</span></div>
+          <div class="entry" style="margin-top:8px; font-family:var(--hand); font-size:22px; color:var(--forest);">— một tuần đẹp.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TEAM ============ -->
+<section id="doi-ngu">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Đội ngũ điều phối</div>
+      <h2>Những người sẽ ở bên con mỗi ngày.</h2>
+      <p class="lead">Không phải “staff”. Không phải “coach”. Là những người cô, người thầy, người bác sẽ ăn cùng, ngủ cùng, và bước cùng các con suốt một tháng hè.</p>
+    </div>
+
+    <div class="team-grid">
+      <div class="person">
+        <div class="person-img"><image-slot id="ngocanh" shape="rect" placeholder="Chân dung Cô Ngọc Anh"></image-slot></div>
+        <div>
+          <div class="role">Quản lý Giáo dục & Chuyên môn</div>
+          <h3 style="margin-top:6px;">Cô Ngọc Anh</h3>
+          <p>Phụ trách định hướng giáo dục và nội dung chương trình — người giữ tinh thần “nền tảng sống” xuyên suốt hành trình.</p>
+        </div>
+      </div>
+      <div class="person">
+        <div class="person-img"><image-slot id="tho" shape="rect" placeholder="Chân dung Cô Thơ"></image-slot></div>
+        <div>
+          <div class="role">Quản lý Vận hành & Bếp trưởng</div>
+          <h3 style="margin-top:6px;">Cô Thơ</h3>
+          <p>Phụ trách hậu cần, lịch sinh hoạt, an toàn hằng ngày — và thực đơn ăn uống thuận tự nhiên cho các con.</p>
+        </div>
+      </div>
+      <div class="person">
+        <div class="person-img"><image-slot id="dieu" shape="rect" placeholder="Chân dung Cô Diệu"></image-slot></div>
+        <div>
+          <div class="role">Phụ trách Nề nếp sống</div>
+          <h3 style="margin-top:6px;">Cô Diệu</h3>
+          <p>Đồng hành trực tiếp cùng các con trong thói quen sinh hoạt, lễ phép, và sự kỷ luật trong đời sống thường ngày.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="team-extras">
+      Cùng sự đồng hành của Thầy Phương, Cô Huyền, Cô Thoa, Thầy Tùng, Bác Vân, Cô Cảnh…
+    </div>
+  </div>
+</section>
+
+<!-- ============ PARENT PARTNERSHIP ============ -->
+<section class="partnership">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Lời mời đồng hành</div>
+      <h2>Gửi đến phụ huynh — bốn lời mời nhỏ.</h2>
+      <p class="lead">Hành trình của con không chỉ diễn ra ở Yên Farm. Nó cũng bắt đầu từ trong chính ngôi nhà của mình — từ những điều ba mẹ chọn buông tay, và những điều ba mẹ chọn giữ lại.</p>
+    </div>
+
+    <div class="partnership-grid">
+      <div class="invite">
+        <div class="num">01.</div>
+        <h3 style="color:var(--cream); font-size:20px;">Cho con được trải nghiệm</h3>
+        <p>Thay vì can thiệp quá sớm, ba mẹ có thể chậm lại một nhịp — để con tự thử, tự sai, tự sửa.</p>
+      </div>
+      <div class="invite">
+        <div class="num">02.</div>
+        <h3 style="color:var(--cream); font-size:20px;">Chấp nhận con sẽ mệt, sẽ bẩn</h3>
+        <p>Có thể con sẽ lóng ngóng, vụng về, hoặc thất bại một chút. Đó là một phần đẹp của hành trình.</p>
+      </div>
+      <div class="invite">
+        <div class="num">03.</div>
+        <h3 style="color:var(--cream); font-size:20px;">Giảm thiết bị, chậm nhịp sống</h3>
+        <p>Trong suốt chương trình, gia đình cùng giảm màn hình và những lịch trình quá tải để con có một mùa hè thật sự yên.</p>
+      </div>
+      <div class="invite">
+        <div class="num">04.</div>
+        <h3 style="color:var(--cream); font-size:20px;">Xây một nếp sống đơn giản hơn</h3>
+        <p>Một bữa cơm cùng nhau, một buổi đi bộ, một tối không màn hình — những điều nhỏ mà bền lâu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ DETAILS ============ -->
+<section id="chi-tiet">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Thông tin chương trình</div>
+      <h2>Chi tiết hành trình.</h2>
+    </div>
+    <div class="details-grid">
+      <div class="detail"><span class="k">Độ tuổi</span><span class="v">Trẻ từ 06 – 11 tuổi</span></div>
+      <div class="detail"><span class="k">Thời gian</span><span class="v">CN 14/06 – CN 12/07 · 2026</span></div>
+      <div class="detail"><span class="k">Địa điểm</span><span class="v">Yên Farm — Làng Gạo, Ba Vì</span></div>
+      <div class="detail"><span class="k">Kinh phí</span><span class="v">Đóng góp nội bộ · Không bắt buộc</span></div>
+      <div class="detail"><span class="k">Hình thức</span><span class="v">Sinh hoạt hè nội bộ, dài ngày</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ REGISTRATION PROCESS ============ -->
+<section style="padding-top:0;">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Cách thức đăng ký tham gia</div>
+      <h2>Một cuộc trò chuyện trước khi cùng đi.</h2>
+      <p class="lead">Sau khi ba mẹ điền phiếu đăng ký, Ban Điều phối sẽ đọc kỹ thông tin của từng gia đình và hẹn một buổi trò chuyện qua Zoom trước ngày <strong>07/06/2026</strong>. Cuộc trò chuyện này giúp hai bên hiểu nhau hơn về định hướng giáo dục, nhịp sống và sự sẵn sàng đồng hành — trước khi cùng xác nhận tham gia.</p>
+    </div>
+
+    <div class="process-steps">
+      <div class="step">
+        <div class="n">Bước 01</div>
+        <h4>Điền phiếu đăng ký</h4>
+        <p>Ba mẹ chia sẻ về con và định hướng giáo dục của gia đình.</p>
+      </div>
+      <div class="step">
+        <div class="n">Bước 02</div>
+        <h4>Ban Điều phối đọc kỹ</h4>
+        <p>Chúng tôi dành thời gian đọc từng phiếu, không vội vàng.</p>
+      </div>
+      <div class="step">
+        <div class="n">Bước 03</div>
+        <h4>Trò chuyện qua Zoom</h4>
+        <p>Một buổi gặp ngắn trước 07/06/2026 để cùng hiểu nhau.</p>
+      </div>
+      <div class="step">
+        <div class="n">Bước 04</div>
+        <h4>Cùng xác nhận tham gia</h4>
+        <p>Khi cả gia đình và Ban Điều phối đều thấy sẵn sàng.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FORM CTA ============ -->
+<section class="form-cta" id="dang-ky">
+  <div class="wrap">
+    <div class="form-cta-card">
+      <div class="form-cta-inner">
+        <div class="eyebrow">Phiếu đăng ký tham gia</div>
+        <h2 style="margin-top:18px;">Gửi một chút về gia đình mình.</h2>
+        <p class="lead" style="margin-top:22px; max-width:620px;">
+          Ba mẹ có thể viết bằng giọng của mình, không cần trang trọng. Chúng tôi muốn hiểu con, hiểu nhịp sống của gia đình — chứ không cần một mẫu CV. Phiếu mất khoảng <strong>8–10 phút</strong>.
+        </p>
+        <ul class="form-cta-list">
+          <li><span class="d"></span><span>Thông tin về con và nhịp sinh hoạt hiện tại</span></li>
+          <li><span class="d"></span><span>Những điều ba mẹ mong con rèn luyện mùa hè này</span></li>
+          <li><span class="d"></span><span>Định hướng giáo dục & sự sẵn sàng đồng hành của gia đình</span></li>
+        </ul>
+        <div class="form-cta-actions">
+          <a href="#" class="btn btn-primary cta-form" target="_blank" rel="noopener">Mở phiếu đăng ký (Google Form) <span class="arrow">→</span></a>
+          <small>Ban Điều phối sẽ phản hồi trong vòng 5 ngày làm việc.</small>
+        </div>
+      </div>
+      <div class="form-cta-aside">
+        <div class="stamp-large">Bản phiếu được gửi đến<br/>Ban Điều phối Yên Farm</div>
+        <div class="hand" style="font-size:40px; line-height:1; color:var(--forest); transform:rotate(-2deg); margin-top:18px;">cảm ơn ba mẹ.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CLOSING ============ -->
+<section class="closing">
+  <div class="narrow">
+    <div class="eyebrow">Lời khép lại</div>
+    <h2>“Một mùa hè không chỉ để nghỉ ngơi, mà để con học cách vững vàng hơn — trong thân thể, trong tâm thế và trong ý chí.”</h2>
+    <a href="#" class="btn btn-primary cta-form" target="_blank" rel="noopener">Đăng ký hành trình <span class="arrow">→</span></a>
+    <div class="closing-mark">Yên Farm · Làng Gạo · Ba Vì · 2026</div>
+  </div>
+</section>
+
+<div id="tweaks-root"></div>
+
+<script type="text/babel" data-presets="env,react">
+(function() {
+  const { useEffect } = React;
+
+  const DEFAULTS = /*EDITMODE-BEGIN*/{
+    "googleFormUrl": "https://forms.gle/your-form-id-here",
+    "palette": ["#4A5D3A", "#9C6B3F", "#C99A3E"],
+    "headingFont": "Lora",
+    "density": 96,
+    "heroCaption": "mùa hè ở Yên Farm",
+    "showNotebook": true,
+    "showPartnership": true,
+    "darkPillars": true
+  }/*EDITMODE-END*/;
+
+  // Palette curated options: [forest, clay, sun]
+  const PALETTES = [
+    ["#4A5D3A", "#9C6B3F", "#C99A3E"],  // default forest + clay + sun
+    ["#3D5246", "#A8754A", "#D4A84B"],  // softer pine + warmer terracotta
+    ["#5C6B3A", "#8B5E3C", "#B8862F"],  // olive + cocoa + amber
+    ["#2F4A2E", "#6B4423", "#8B7355"]   // deep forest + dark walnut + tan
+  ];
+
+  const FONT_OPTIONS = ["Lora", "Cormorant Garamond", "Playfair Display"];
+
+  function applyTweaks(t) {
+    const root = document.documentElement;
+    if (t.palette && t.palette.length >= 3) {
+      root.style.setProperty('--forest', t.palette[0]);
+      root.style.setProperty('--clay', t.palette[1]);
+      root.style.setProperty('--sun', t.palette[2]);
+      // derive forest-deep
+      root.style.setProperty('--forest-deep', shade(t.palette[0], -14));
+    }
+    if (t.headingFont) {
+      root.style.setProperty('--serif', `'${t.headingFont}', 'Times New Roman', serif`);
+    }
+    if (t.density) {
+      document.querySelectorAll('section').forEach(s => {
+        // skip hero / closing which have custom padding
+        if (s.classList.contains('hero') || s.classList.contains('closing')) return;
+        s.style.paddingTop = t.density + 'px';
+        s.style.paddingBottom = t.density + 'px';
+      });
+    }
+    // Hero caption
+    const cap = document.querySelector('.hero-caption');
+    if (cap && t.heroCaption !== undefined) cap.textContent = t.heroCaption;
+
+    // Section toggles
+    const notebook = document.querySelector('section.notebook');
+    if (notebook) notebook.style.display = t.showNotebook ? '' : 'none';
+    const partnership = document.querySelector('section.partnership');
+    if (partnership) partnership.style.display = t.showPartnership ? '' : 'none';
+
+    // Dark pillars vs light
+    const pillars = document.querySelector('section.pillars');
+    if (pillars) {
+      if (t.darkPillars) {
+        pillars.classList.remove('pillars-light');
+      } else {
+        pillars.classList.add('pillars-light');
+      }
+    }
+
+    // CTA links → Google Form URL
+    document.querySelectorAll('a.cta-form').forEach(a => {
+      a.href = t.googleFormUrl || '#';
+    });
+  }
+
+  function shade(hex, percent) {
+    // simple darken
+    const num = parseInt(hex.replace('#',''), 16);
+    let r = (num >> 16) + Math.round(2.55 * percent);
+    let g = ((num >> 8) & 0xff) + Math.round(2.55 * percent);
+    let b = (num & 0xff) + Math.round(2.55 * percent);
+    r = Math.max(0, Math.min(255, r));
+    g = Math.max(0, Math.min(255, g));
+    b = Math.max(0, Math.min(255, b));
+    return '#' + ((r << 16) | (g << 8) | b).toString(16).padStart(6, '0');
+  }
+
+  function App() {
+    const { TweaksPanel, useTweaks, TweakSection, TweakText, TweakColor, TweakSelect, TweakSlider, TweakToggle } = window;
+    if (!TweaksPanel) return null;
+    const [t, setTweak] = useTweaks(DEFAULTS);
+
+    useEffect(() => { applyTweaks(t); }, [t]);
+
+    return (
+      <TweaksPanel title="Tweaks">
+        <TweakSection label="Đường dẫn đăng ký">
+          <TweakText
+            label="Google Form URL"
+            value={t.googleFormUrl}
+            onChange={(v) => setTweak('googleFormUrl', v)}
+            placeholder="https://forms.gle/..."
+          />
+        </TweakSection>
+
+        <TweakSection label="Bảng màu">
+          <TweakColor
+            label="Palette (forest · clay · sun)"
+            value={t.palette}
+            options={PALETTES}
+            onChange={(v) => setTweak('palette', v)}
+          />
+        </TweakSection>
+
+        <TweakSection label="Kiểu chữ tiêu đề">
+          <TweakSelect
+            label="Heading font"
+            value={t.headingFont}
+            options={FONT_OPTIONS}
+            onChange={(v) => setTweak('headingFont', v)}
+          />
+        </TweakSection>
+
+        <TweakSection label="Bố cục">
+          <TweakSlider
+            label="Khoảng cách giữa các phần"
+            value={t.density}
+            min={56} max={140} step={4}
+            onChange={(v) => setTweak('density', v)}
+            unit="px"
+          />
+          <TweakToggle
+            label="Phần 'Ba trụ cột' nền tối"
+            value={t.darkPillars}
+            onChange={(v) => setTweak('darkPillars', v)}
+          />
+          <TweakToggle
+            label="Hiện phần 'Sổ tay hành trình'"
+            value={t.showNotebook}
+            onChange={(v) => setTweak('showNotebook', v)}
+          />
+          <TweakToggle
+            label="Hiện phần 'Lời mời đồng hành'"
+            value={t.showPartnership}
+            onChange={(v) => setTweak('showPartnership', v)}
+          />
+        </TweakSection>
+
+        <TweakSection label="Nội dung nhỏ">
+          <TweakText
+            label="Hero caption (viết tay)"
+            value={t.heroCaption}
+            onChange={(v) => setTweak('heroCaption', v)}
+          />
+        </TweakSection>
+      </TweaksPanel>
+    );
+  }
+
+  // Apply defaults immediately so non-edit views still get the URL etc.
+  applyTweaks(DEFAULTS);
+
+  // Wait for TweaksPanel (loaded by tweaks-panel.jsx) before mounting.
+  function mount() {
+    if (!window.TweaksPanel) { setTimeout(mount, 50); return; }
+    const root = ReactDOM.createRoot(document.getElementById('tweaks-root'));
+    root.render(<App />);
+  }
+  mount();
+})();
+</script>
+
+<style>
+  /* light variant for pillars section (used when darkPillars=false) */
+  .pillars.pillars-light { background: var(--paper); color: var(--ink); }
+  .pillars.pillars-light h2, .pillars.pillars-light h3 { color: var(--ink); }
+  .pillars.pillars-light .eyebrow { color: var(--clay); }
+  .pillars.pillars-light .eyebrow::before { background: var(--clay); }
+  .pillars.pillars-light .lead { color: var(--ink-soft); }
+  .pillars.pillars-light .pillar-grid { background: var(--line); border-color: var(--line); }
+  .pillars.pillars-light .pillar { background: var(--cream); }
+  .pillars.pillars-light .pillar ul li { color: var(--ink-soft); border-top-color: var(--line); }
+  .pillars.pillars-light .pillar ul li::before { color: var(--clay); }
+  .pillars.pillars-light .pillar .core { color: var(--ink-soft); border-top-color: var(--line); }
+  .pillars.pillars-light .pillar h3 .tag { color: var(--clay); }
+  .pillars.pillars-light .pillar .roman { color: var(--clay); }
+</style>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="brand">Yên Farm · Hành Trình Vững Vàng 2026</div>
+    <div>Liên hệ Ban Điều phối · hello@yenfarm.vn</div>
+  </div>
+</footer>
+
+</body>
+</html>
