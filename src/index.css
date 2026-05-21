@@ -70,7 +70,9 @@ p { margin: 0 0 1.1em; }
   background: var(--clay);
   display: inline-block;
 }
-.hand { font-family: var(--hand); color: var(--forest); font-size: 1.4em; line-height: 1; }
+.hand { 
+  font-family: Georgia, 'Times New Roman', Times, serif; color: var(--forest); font-size: 1.4em; line-height: 1; 
+}
 em { font-style: italic; color: var(--ink-soft); }
 
 header.site {
@@ -194,7 +196,8 @@ header.site {
 }
 .signoff {
   margin-top: 36px;
-  font-family: var(--hand);
+  font-family: Georgia, 'Times New Roman', Times, serif;
+  font-style: italic;
   color: var(--ink-soft);
   font-size: 24px;
 }
@@ -350,13 +353,13 @@ header.site {
   width: 1px; background: rgba(156,107,63,0.3);
 }
 .notebook-card .title-hand {
-  font-family: var(--hand); font-size: 32px; color: var(--forest-deep);
+  font-family: Georgia, 'Times New Roman', Times, serif; font-size: 32px; color: var(--forest-deep);
   border-bottom: 1px dashed var(--line);
   padding-bottom: 12px; margin-bottom: 18px;
 }
 .notebook-card .entries { display: flex; flex-direction: column; gap: 10px; }
 .notebook-card .entry {
-  font-family: var(--serif); font-size: 15px; color: var(--ink-soft);
+  font-family: Georgia, 'Times New Roman', Times, serif; font-size: 15px; color: var(--ink-soft);
   display: flex; gap: 12px; align-items: baseline;
 }
 .notebook-card .entry .dot {
